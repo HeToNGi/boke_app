@@ -1,0 +1,10 @@
+.index_button {
+  position: absolute;
+  left: 400px;
+  height: 100%;
+  color: #fff !important;
+  /* font-weight: bold; */
+  /* font-size: 25px; */
+  background-color: transparent !important;
+  border-color: transparent !important;
+}

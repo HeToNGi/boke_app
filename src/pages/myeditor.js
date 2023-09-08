@@ -1,5 +1,5 @@
 import '../style/editor.css'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import dynamic from 'next/dynamic';
 const Editor = dynamic(() => import('for-editor'), { ssr: false });

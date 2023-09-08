@@ -14,4 +14,4 @@ docker rmi ${service_name}:${service_version}
 
 docker build -t ${service_name}:${service_version} .
 
-docker run -i --init -p 3000:3000 -e NODE_ENV=${NODE_ENV} -d -t --cap-add=SYS_ADMIN --name ${service_name} ${service_name}:${service_version}
+docker run -i --init -p 4000:3000 -e NODE_ENV=${NODE_ENV} -d -t --cap-add=SYS_ADMIN --name ${service_name} ${service_name}:${service_version}

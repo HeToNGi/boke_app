@@ -1,19 +1,32 @@
 import '../style/editor.css'
 import React, { useState, useEffect } from 'react';
-
+import { useRouter } from 'next/router';
+import { Modal, Input } from 'antd';
+import { saveContent, getFrontendTechnologyContentForKey } from '@/util/request';
 import dynamic from 'next/dynamic';
 const Editor = dynamic(() => import('for-editor'), { ssr: false });
 
 export default function myeditor() {
-  const [value, setValue] = useState('')
+  const router = useRouter();
+  const [value, setValue] = useState('');
+  const [title, setTitle] = useState('');
   const [forEditorLoaded, setForEditorLoaded] = useState(false);
 
   useEffect(() => {
     setForEditorLoaded(true);
+    const queryParams = new URLSearchParams(window.location.search);
+    const id = queryParams.get('id')
+    if (id) {
+      getFrontendTechnologyContentForKey(id).then(res => {
+        setValue(res.data.data.content);
+        setTitle(res.data.data.title);
+      })
+    }
   }, []);
   const handleEditorChange = (value) => {
     setValue(value);
   };
+
   const toolbar = {
     h1: true, // h1
     h2: true, // h2
@@ -32,11 +45,26 @@ export default function myeditor() {
     subfield: false, // 单双栏模式
   }
   const onSave = (e) => {
-    console.log(e);
+    const queryParams = new URLSearchParams(window.location.search);
+    const id = queryParams.get('id')
+    saveContent({
+      id,
+      title,
+      content: e,
+      type: 'front',
+    }).then(res => {
+      router.push(`/myeditor?id=${res.data.data.id}`);
+      console.log(res, 'saveContentsaveContentsaveContent')
+    });
   }
+
+  // article
   return (
     <div className='editor_outer'>
-      {forEditorLoaded ? <Editor style={{marginTop: '46px', height: '100%', overflow: 'scroll'}} value={value} expand preview subfield toolbar={toolbar} onSave={onSave} onChange={(e) => handleEditorChange(e)} /> : ''}
+     <div className='content_title'>
+      <Input value={title} onChange={(e) => {setTitle(e.target.value)}} style={{height: '100%'}} placeholder='请输入标题' />
+     </div>
+     {forEditorLoaded ? <Editor style={{marginTop: '96px', height: '100%', overflow: 'scroll'}} value={value} expand preview subfield toolbar={toolbar} onSave={onSave} onChange={(e) => handleEditorChange(e)} /> : ''}
     </div>
   );
 }

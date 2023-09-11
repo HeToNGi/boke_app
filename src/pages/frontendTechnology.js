@@ -16,7 +16,7 @@ export default function frontendTechnology() {
   useEffect(() => {
     if (items.length) {
       getFrontendTechnologyContentForKey(items[0].key).then(res => {
-        setContent(() => res.data.data);
+        setContent(() => res.data.data.content);
       })
     }
   }, [items]);
@@ -24,7 +24,7 @@ export default function frontendTechnology() {
   useEffect(() => {
     if (key) {
       getFrontendTechnologyContentForKey(key).then(res => {
-        setContent(() => res.data.data);
+        setContent(() => res.data.data.content);
       })
     }
   }, [key]);

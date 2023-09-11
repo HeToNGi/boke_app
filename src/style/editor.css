@@ -4,3 +4,10 @@
   margin-top: 46px;
   overflow: hidden;
 }
+.ant-modal-root {
+  z-index: 999999;
+}
+.content_title {
+  height: 50px;
+  width: 100%;
+}

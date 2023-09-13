@@ -12,6 +12,8 @@
   cursor: pointer;
   background-color: gray;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  line-height: 50px;
 }
 .item-1 {
   background-color: #ffffff;

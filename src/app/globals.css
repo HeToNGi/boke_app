@@ -46,6 +46,11 @@ body, html {
   left: 250px;
   width: 150px;
 }
+.abs_more {
+  position: absolute;
+  top: 50px;
+  right: 250px;
+}
 /* .ant-menu-item-active {
   color: white !important;
   background-color: white !important;

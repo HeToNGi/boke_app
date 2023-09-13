@@ -1,7 +1,7 @@
 import '../style/editor.css'
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { Modal, Input } from 'antd';
+import { Modal, Input, Radio, Space } from 'antd';
 import { saveContent, getFrontendTechnologyContentForKey } from '@/util/request';
 import dynamic from 'next/dynamic';
 const Editor = dynamic(() => import('for-editor'), { ssr: false });
@@ -10,6 +10,7 @@ export default function myeditor() {
   const router = useRouter();
   const [value, setValue] = useState('');
   const [title, setTitle] = useState('');
+  const [type, setType] = useState('');
   const [forEditorLoaded, setForEditorLoaded] = useState(false);
 
   useEffect(() => {
@@ -51,7 +52,7 @@ export default function myeditor() {
       id,
       title,
       content: e,
-      type: 'front',
+      type: type || 'front',
     }).then(res => {
       router.push(`/myeditor?id=${res.data.data.id}`);
       console.log(res, 'saveContentsaveContentsaveContent')
@@ -61,10 +62,19 @@ export default function myeditor() {
   // article
   return (
     <div className='editor_outer'>
-     <div className='content_title'>
-      <Input value={title} onChange={(e) => {setTitle(e.target.value)}} style={{height: '100%'}} placeholder='请输入标题' />
-     </div>
-     {forEditorLoaded ? <Editor style={{marginTop: '96px', height: '100%', overflow: 'scroll'}} value={value} expand preview subfield toolbar={toolbar} onSave={onSave} onChange={(e) => handleEditorChange(e)} /> : ''}
+      <div className='content_title'>
+        <Input value={title} onChange={(e) => {setTitle(e.target.value)}} style={{height: '100%'}} placeholder='请输入标题' />
+      </div>
+      {forEditorLoaded ? <Editor style={{marginTop: '96px', height: '100%', overflow: 'scroll'}} value={value} expand preview subfield toolbar={toolbar} onSave={onSave} onChange={(e) => handleEditorChange(e)} /> : ''}
+      <div className='select_type'>
+        <Radio.Group optionType="button" onChange={(e) => {setType(e.target.value)}} value={type}>
+          <Space direction="vertical">
+            <Radio value={'front'}>前端</Radio>
+            <Radio value={'backend'}>后端</Radio>
+            <Radio value={'algorithm'}>算法</Radio>
+          </Space>
+        </Radio.Group>
+      </div>
     </div>
   );
 }

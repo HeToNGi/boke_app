@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo, Fragment } from "react"
-import { FrownOutlined  } from '@ant-design/icons';
+import { FrownOutlined, AliwangwangOutlined } from '@ant-design/icons';
 import '../style/mineClearance.css'
 export default function mineClearance() {
   const [data, setData] = useState([]);
@@ -59,16 +59,30 @@ export default function mineClearance() {
       }
     }
   }
+  const onContextmenu = (e) => {
+    e.preventDefault();
+    if (!e.target.getAttribute('data')) return;
+    const [i1, k1] = e.target.getAttribute('data').split('_').map(e => parseInt(e));
+    const d = JSON.parse(JSON.stringify(data));
+    if (d[i1][k1].state === 1) return;
+    if (d[i1][k1].state === 2) {
+      d[i1][k1].state = 0;
+    } else {
+      d[i1][k1].state = 2;
+    }
+    setData(() => d);
+  }
   return (
-    <div onClick={onClick} style={{overflow: 'hidden', height: 'calc(100% - 50px)'}} className="content">
+    <div onClick={onClick} onContextMenu={onContextmenu} style={{overflow: 'hidden', height: 'calc(100% - 50px)'}} className="content">
       {useMemo(() => {
         return (<Fragment>
           {data.map((ele, index) => {
             return (
               <div key={index} className='col'>{ele.map((e, i) => {
                 return <div key={i} data={index + '_' + i} className={`item-e item-${e.state}`}>
-                  {e.state === 1 && e.nums ? e.nums : ''}
+                  {e.state === 1 && e.nums && !e.isMineClearance ? e.nums : ''}
                   {e.state === 1 && e.isMineClearance ? <FrownOutlined/> : ''}
+                  {e.state === 2 ? <AliwangwangOutlined /> : ''}
                 </div>
               })}</div>
             )

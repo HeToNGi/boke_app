@@ -1,9 +1,13 @@
 import { useEffect, useState, useMemo, Fragment } from "react"
-import { FrownOutlined, AliwangwangOutlined } from '@ant-design/icons';
+import { FrownOutlined, AliwangwangOutlined, ReloadOutlined } from '@ant-design/icons';
+import { Button } from 'antd'
 import '../style/mineClearance.css'
+import { isMiddlewareFilename } from "next/dist/build/utils";
+
 export default function mineClearance() {
   const [data, setData] = useState([]);
-  const initDaat = () => {
+  const [isEnd, setIsEnd] = useState(false);
+  const initDat = () => {
     const d = [];
     for (let i = 0; i <= 16; i++) {
       d[i] = [];
@@ -29,12 +33,22 @@ export default function mineClearance() {
     }
     return d
   }
+
   useEffect(() => {
-    setData(initDaat);
+    setData(initDat);
   }, []);
+
+  const onReload = () => {
+    setIsEnd(false);
+    setData(initDat);
+  }
+
   const onClick = (e) => {
     if (!e.target.getAttribute('data')) return;
     const [i1, k1] = e.target.getAttribute('data').split('_').map(e => parseInt(e));
+    if (data[i1][k1].isMineClearance) {
+      setIsEnd(true);
+    }
     const d = JSON.parse(JSON.stringify(data));
     if (d[i1][k1].state) return;
     d[i1][k1].state = 1;
@@ -47,6 +61,7 @@ export default function mineClearance() {
     }
     setData(() => d);
   };
+
   const handleData = (item, d, i1, k1) => {
     if (item.state === 1 || item.state === 2 || item.isMineClearance) return;
     item.state = 1;
@@ -59,6 +74,7 @@ export default function mineClearance() {
       }
     }
   }
+
   const onContextmenu = (e) => {
     e.preventDefault();
     if (!e.target.getAttribute('data')) return;
@@ -72,7 +88,7 @@ export default function mineClearance() {
     }
     setData(() => d);
   }
-  
+
   return (
     <div onClick={onClick} onContextMenu={onContextmenu} style={{overflow: 'hidden', height: 'calc(100% - 50px)'}} className="content">
       {useMemo(() => {
@@ -90,6 +106,22 @@ export default function mineClearance() {
           })}
         </Fragment>)
       }, [data])}
+      {useMemo(() => {
+        if (isEnd) {
+          return (
+            <div className="bo_class">
+              <img src="/Bo.gif" className="bo_image" />
+              <div className="bo_btn">
+                <Button type="primary" shape="round" onClick={onReload} icon={<ReloadOutlined />}>
+                  重来
+                </Button>
+              </div>
+            </div>
+          )
+        } else {
+          return ''
+        }
+      }, [isEnd])}
     </div>
   )
 }

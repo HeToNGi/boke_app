@@ -72,6 +72,7 @@ export default function mineClearance() {
     }
     setData(() => d);
   }
+  
   return (
     <div onClick={onClick} onContextMenu={onContextmenu} style={{overflow: 'hidden', height: 'calc(100% - 50px)'}} className="content">
       {useMemo(() => {

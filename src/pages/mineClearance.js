@@ -2,7 +2,6 @@ import { useEffect, useState, useMemo, Fragment } from "react"
 import { FrownOutlined, AliwangwangOutlined, ReloadOutlined } from '@ant-design/icons';
 import { Button } from 'antd'
 import '../style/mineClearance.css'
-import { isMiddlewareFilename } from "next/dist/build/utils";
 
 export default function mineClearance() {
   const [data, setData] = useState([]);

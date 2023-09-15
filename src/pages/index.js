@@ -1,7 +1,5 @@
 import { useEffect } from 'react';
 import * as THREE from 'three';
-import Stats from 'three/addons/libs/stats.module.js';
-import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
 import '../style/index.css'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 

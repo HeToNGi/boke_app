@@ -1,0 +1,127 @@
+.home_content {
+  /* position: relative; */
+  width: 100%;
+  height: 100%;
+  overflow: scroll;
+}
+.home_left {
+  width: 49%;
+  /* overflow: auto; */
+  height: 100%;
+  /* display: flex; */
+  /* justify-content: space-between; */
+}
+.home_right {
+  position: absolute;
+  top: 0;
+  width: 49%;
+  background-color: #F2EFE6;
+  right: 0;
+  bottom: 0;
+}
+.home_left div {
+  /* width: 454px; */
+}
+.home_left img {
+  /* width: 100%; */
+  /* display: inline-block; */
+  /* transform: translateY(-300px); */
+}
+/* .imglist_left .img-1 {
+  transform: translateY(-300px);
+  opacity: 0;
+}
+.imglist_left .img-2 {
+  transform: translateY(-300px);
+  opacity: 0;
+}
+.imglist_right .img-10 {
+  transform: translateY(300px);
+  opacity: 0;
+}
+.imglist_right .img-11 {
+  transform: translateY(300px);
+  opacity: 0;
+} */
+.right_title {
+  font-size: 60px;
+  position: absolute;
+  left: 50px;
+  top: 40%;
+  transform: translateY(-50%);
+}
+
+.right_title div {
+  /* height: 0; */
+  overflow: hidden;
+}
+.imganime_class_right {
+  animation: initimgmove_right 1s linear forwards;
+}
+.imganime_class_left {
+  animation: initimgmove_left 1s linear forwards;
+}
+@keyframes initimgmove_left {
+  0% {
+    transform: translateY(-300px);
+    opacity: 0;
+    /* 0% 处的初始状态 */
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+    /* 100% 处的最终状态 */
+  }
+}
+@keyframes initimgmove_right {
+  0% {
+    transform: translateY(300px);
+    opacity: 0;
+    /* 0% 处的初始状态 */
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+    /* 100% 处的最终状态 */
+  }
+}
+.opacity_anime_class {
+  animation: opacityanime 1s linear forwards;
+}
+@keyframes opacityanime {
+  0% {
+    opacity: 0;
+    /* 0% 处的初始状态 */
+  }
+
+  100% {
+    opacity: 1;
+    /* 100% 处的最终状态 */
+  }
+}
+.right_describe {
+  width: 350px;
+  text-wrap: wrap;
+  position: absolute;
+  bottom: 20%;
+  right: 50px;
+  font-family: RecklessNeue-Book, Helvetica, Arial, sans-serif;
+  font-size: 25px;
+  font-weight: 100;
+  opacity: 0;
+  line-height: 25px;
+}
+.right_lp {
+  width: 250px;
+  text-wrap: wrap;
+  position: absolute;
+  top: 20px;
+  right: 50px;
+  font-family: RecklessNeue-Book, Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 100;
+  opacity: 0;
+  text-align: right;
+}

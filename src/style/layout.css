@@ -8,3 +8,101 @@
   background-color: transparent !important;
   border-color: transparent !important;
 }
+.main_content {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+}
+.main_icon {
+  position: absolute;
+  top: 20px;
+  left: 50px;
+  font-size: 20px;
+  font-weight: bold;
+  z-index: 2;
+}
+.menu_btn {
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 85px;
+  height: 85px;
+  border-radius: 100%;
+  background-color: rgb(196, 133, 60);
+  bottom: 45px;
+  margin: 0 auto;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* 添加阴影 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.menu_btn:hover {
+  transform: scale(1.05); /* 鼠标悬停时将元素放大为原来的1.2倍 */
+}
+.menu_content {
+  height: 234px;
+  width: 95%;
+  position: absolute;
+  bottom: 160px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  cursor: pointer;
+}
+.menu_title {
+  margin-bottom: 5px;
+  color: #fff;
+  font-size: 17px;
+}
+.menu_item {
+  width: 38vh;
+  transition: transform 0.3s ease;
+  /* margin-left: 40px; */
+}
+.menu_item:hover {
+  transform: scale(1.05);
+    /* 鼠标悬停时将元素放大为原来的1.2倍 */
+}
+.menu_img {
+  width: 100%;
+  background-color: #fff;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.tag_class {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 5px;
+  border-radius: 100%;
+  background-color: orange;
+}
+.menu_icon {
+  opacity: 0;
+  transform: rotate(90deg);
+}
+.menu_btn:hover .menu_icon {
+  animation: rotate 0.5s linear forwards;
+  /* 应用旋转动画 */
+}
+@keyframes rotate {
+  0% {
+    transform: rotate(90deg);
+    opacity: 0;
+    /* 0% 处的初始状态 */
+  }
+
+  100% {
+    transform: rotate(0deg);
+    opacity: 1;
+    /* 100% 处的最终状态 */
+  }
+}

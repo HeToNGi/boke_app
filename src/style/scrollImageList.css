@@ -1,0 +1,65 @@
+.imglist_content {
+  display: flex;
+  justify-content: space-between;
+  /* flex: 1 1 auto; */
+  overflow: hidden;
+}
+.imglist_content img {
+  width: 100%;
+  /* margin-top: 10px; */
+  /* opacity: 0; */
+}
+.imglist_left {
+  float: left;
+  width: 48%;
+  opacity: 0;
+  transform: translateY(-300px);
+}
+.imglist_right {
+  float: left;
+  margin-left: 20px;
+  width: 48%;
+  opacity: 0;
+  transform: translateY(300px);
+}
+.imglist_left img {
+  /* transform: translateY(-300); */
+}
+.imglist_right img {
+  /* transform: translateY(300); */
+}
+.imganime_class_right {
+  animation: initimgmove_right 1s linear forwards;
+}
+
+.imganime_class_left {
+  animation: initimgmove_left 1s linear forwards;
+}
+
+@keyframes initimgmove_left {
+  0% {
+    transform: translateY(-300px);
+    opacity: 0;
+    /* 0% 处的初始状态 */
+  }
+
+  100% {
+    transform: translateY(0px);
+    opacity: 1;
+    /* 100% 处的最终状态 */
+  }
+}
+
+@keyframes initimgmove_right {
+  0% {
+    transform: translateY(300px);
+    opacity: 0;
+    /* 0% 处的初始状态 */
+  }
+
+  100% {
+    transform: translateY(0px);
+    opacity: 1;
+    /* 100% 处的最终状态 */
+  }
+}

@@ -1,156 +1,139 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import * as THREE from 'three';
 import '../style/index.css'
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import Stats from 'three/addons/libs/stats.module.js';
+import { PLYLoader } from 'three/addons/loaders/PLYLoader.js';
+
 
 export default function Home() {
-  	let camera, scene, renderer;
-    const mixers = [];
+  let container, camera, scene, renderer, stats, cameraTarget;
+  const [count, setCount] = useState(0)
+  useEffect(() => {
+    initThree();
+    animate();
+  }, []);
+  const initThree = () => {
+    container = document.getElementById('three_container');
+    document.getElementById('three_body').appendChild( container );
 
-    const clock = new THREE.Clock();
-    useEffect(() => {
-      init();
-      animate();
-    }, [])
-  	function init() {
-				const container = document.getElementById( 'threejsbody' );
+    camera = new THREE.PerspectiveCamera( 35, window.innerWidth / window.innerHeight, 1, 15 );
+    camera.position.set( 3, 0.15, 3 );
+    cameraTarget = new THREE.Vector3( 0, - 0.1, 0 );
+    // 定义场景
+    scene = new THREE.Scene();
+    scene.background = new THREE.Color( 0x72645b );
+		scene.fog = new THREE.Fog( 0x72645b, 2, 15 );
 
-				camera = new THREE.PerspectiveCamera( 30, window.innerWidth / window.innerHeight, 1, 5000 );
-				camera.position.set( 0, 0, 250 );
+    const plane = new THREE.Mesh(
+      new THREE.PlaneGeometry( 40, 40 ),
+      new THREE.MeshPhongMaterial( { color: 0xcbcbcb, specular: 0x474747 } )
+    );
+    plane.rotation.x = - Math.PI / 2;
+    plane.position.y = - 0.5;
+    scene.add( plane );
+    plane.receiveShadow = true;
 
-				scene = new THREE.Scene();
-				scene.background = new THREE.Color().setHSL( 0.6, 0, 1 );
-				scene.fog = new THREE.Fog( scene.background, 1, 5000 );
+    const loader = new PLYLoader();
+    loader.load( '/static/dolphins.ply', function ( geometry ) {
+      geometry.computeVertexNormals();
+      const material = new THREE.MeshStandardMaterial( { color: 0x009cff, flatShading: true } );
+      const mesh = new THREE.Mesh( geometry, material );
+      mesh.position.y = - 0.2;
+      mesh.position.z = 0.3;
+      mesh.rotation.x = - Math.PI / 2;
+      mesh.scale.multiplyScalar( 0.001 );
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+      scene.add( mesh );
+    });
+    loader.load( '/static/Lucy100k.ply', function ( geometry ) {
+      geometry.computeVertexNormals();
+      const material = new THREE.MeshStandardMaterial( { color: 0x009cff, flatShading: true } );
+      const mesh = new THREE.Mesh( geometry, material );
+      mesh.position.x = - 0.2;
+      mesh.position.y = - 0.02;
+      mesh.position.z = - 0.2;
+      mesh.scale.multiplyScalar( 0.0006 );
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+      scene.add( mesh );
+    });
 
-				// LIGHTS
+    scene.add( new THREE.HemisphereLight( 0x8d7c7c, 0x494966, 3 ) );
 
-				const hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 2 );
-				hemiLight.color.setHSL( 0.6, 1, 0.6 );
-				hemiLight.groundColor.setHSL( 0.095, 1, 0.75 );
-				hemiLight.position.set( 0, 50, 0 );
-				scene.add( hemiLight );
+    addShadowedLight( 1, 1, 1, 0xffffff, 3.5 );
+    addShadowedLight( 0.5, 1, - 1, 0xffd500, 3 );
 
-				// const hemiLightHelper = new THREE.HemisphereLightHelper( hemiLight, 10 );
-				// scene.add( hemiLightHelper );
+    // renderer
+    renderer = new THREE.WebGLRenderer( { antialias: true } );
+    renderer.setPixelRatio( window.devicePixelRatio );
+    renderer.setSize( window.innerWidth, window.innerHeight );
 
-				//
+    renderer.shadowMap.enabled = true;
 
-				const dirLight = new THREE.DirectionalLight( 0xffffff, 3 );
-				dirLight.color.setHSL( 0.1, 1, 0.95 );
-				dirLight.position.set( - 1, 1.75, 1 );
-				dirLight.position.multiplyScalar( 30 );
-				scene.add( dirLight );
+    container.appendChild( renderer.domElement );
 
-				// dirLight.castShadow = true;
+    // stats
 
-				dirLight.shadow.mapSize.width = 2048;
-				dirLight.shadow.mapSize.height = 2048;
+    stats = new Stats();
+    // container.appendChild( stats.dom );
 
-				const d = 50;
+    // resize
 
-				dirLight.shadow.camera.left = - d;
-				dirLight.shadow.camera.right = d;
-				dirLight.shadow.camera.top = d;
-				dirLight.shadow.camera.bottom = - d;
+    window.addEventListener( 'resize', onWindowResize );
+  }
+  function addShadowedLight( x, y, z, color, intensity ) {
 
-				dirLight.shadow.camera.far = 3500;
-				dirLight.shadow.bias = - 0.0001;
-				// scene.add( dirLightHelper );
-				// GROUND
-				const groundGeo = new THREE.PlaneGeometry( 10000, 10000 );
-				const groundMat = new THREE.MeshLambertMaterial( { color: 0xffffff } );
-				groundMat.color.setHSL( 0.095, 1, 0.75 );
-				const ground = new THREE.Mesh( groundGeo, groundMat );
-				ground.position.y = - 33;
-				ground.rotation.x = - Math.PI / 2;
-				ground.receiveShadow = true;
-				scene.add( ground );
-				// SKYDOME
-				const vertexShader = document.getElementById( 'vertexShader' ).textContent;
-				const fragmentShader = document.getElementById( 'fragmentShader' ).textContent;
-				const uniforms = {
-					'topColor': { value: new THREE.Color( 0x0077ff ) },
-					'bottomColor': { value: new THREE.Color( 0xffffff ) },
-					'offset': { value: 33 },
-					'exponent': { value: 0.6 }
-				};
-				uniforms[ 'topColor' ].value.copy( hemiLight.color );
-				scene.fog.color.copy( uniforms[ 'bottomColor' ].value );
-				const skyGeo = new THREE.SphereGeometry( 4000, 32, 15 );
-				const skyMat = new THREE.ShaderMaterial( {
-					uniforms: uniforms,
-					vertexShader: vertexShader,
-					fragmentShader: fragmentShader,
-					side: THREE.BackSide
-				});
-				const sky = new THREE.Mesh( skyGeo, skyMat );
-				scene.add( sky );
-				// MODEL
-				const loader = new GLTFLoader();
-				loader.load( '/static/GLTF/Flamingo.glb', function ( gltf ) {
-					const mesh = gltf.scene.children[ 0 ];
-					const s = 0.35;
-					mesh.scale.set( s, s, s );
-					mesh.position.y = 15;
-					mesh.rotation.y = - 1;
-					// mesh.castShadow = true;
-					mesh.receiveShadow = true;
-					scene.add( mesh );
-					const mixer = new THREE.AnimationMixer( mesh );
-					mixer.clipAction( gltf.animations[ 0 ] ).setDuration( 1 ).play();
-					mixers.push( mixer );
-				});
+    const directionalLight = new THREE.DirectionalLight( color, intensity );
+    directionalLight.position.set( x, y, z );
+    scene.add( directionalLight );
 
-				// RENDERER
+    directionalLight.castShadow = true;
 
-				renderer = new THREE.WebGLRenderer( { antialias: true } );
-				renderer.setPixelRatio( window.devicePixelRatio );
-				renderer.setSize( window.innerWidth, window.innerHeight );
-				container.appendChild( renderer.domElement );
-				renderer.shadowMap.enabled = true;
+    const d = 1;
+    directionalLight.shadow.camera.left = - d;
+    directionalLight.shadow.camera.right = d;
+    directionalLight.shadow.camera.top = d;
+    directionalLight.shadow.camera.bottom = - d;
 
-				window.addEventListener( 'resize', onWindowResize );
+    directionalLight.shadow.camera.near = 1;
+    directionalLight.shadow.camera.far = 4;
 
-		}
-    function onWindowResize() {
+    directionalLight.shadow.mapSize.width = 1024;
+    directionalLight.shadow.mapSize.height = 1024;
 
-      camera.aspect = window.innerWidth / (window.innerHeight);
-      camera.updateProjectionMatrix();
+    directionalLight.shadow.bias = - 0.001;
 
-      renderer.setSize( window.innerWidth, window.innerHeight );
+  }
+  function onWindowResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize( window.innerWidth, window.innerHeight );
+	}
+  function animate() {
 
-    }
+    requestAnimationFrame( animate );
 
-    function animate() {
-      requestAnimationFrame( animate );
-      render();
-    }
-    function render() {
+    render();
+    stats.update();
 
-      const delta = clock.getDelta();
+  }
 
-      for ( let i = 0; i < mixers.length; i ++ ) {
+  function render() {
 
-        mixers[ i ].update( delta );
+    const timer = Date.now() * 0.0005;
 
-      }
+    camera.position.x = Math.sin( timer ) * 2.5;
+    camera.position.z = Math.cos( timer ) * 2.5;
 
-      renderer.render( scene, camera );
+    camera.lookAt( cameraTarget );
 
-    }
-  function MessageIndex() {
-    return (
-      <div className='title'>
-        The mountain has its peak, the lake has its other shore
-      </div>
-    )
+    renderer.render( scene, camera );
+
   }
   return (
-    <div>
-      <MessageIndex />
-      <div id='threejsbody'></div>
-      <div id='vertexShader'></div>
-      <div id='fragmentShader'></div>
+    <div id="three_body">
+      <div id="three_container"></div>
     </div>
   )
 }

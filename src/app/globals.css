@@ -34,6 +34,11 @@ body, html {
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   overflow: hidden;
 }
+@font-face {
+  font-family: 'CustomFont';
+  src: url('../../public/font/KaushanScript-Regular.otf') format('truetype');
+  /* 其他字体格式和设置 */
+}
 .content {
   /* padding-top: 46px; */
   margin: 46px 300px 0 400px;

@@ -67,7 +67,7 @@ function TopMenu() {
   ) 
 }
 function MenuList({onSelect}) {
-  const router = useRouter()
+  const router = useRouter();
   const [menu, setMenu] = useState([
     {
       title: 'Lucy100k',
@@ -83,17 +83,22 @@ function MenuList({onSelect}) {
       imageSrc: '/img/work.jpg',
     }, {
       title: 'ABOUT',
-      imageSrc: '/img/home.jpg',
+      imageSrc: '/img/about.jpg',
+      path: '/about',
     }, {
       title: 'CONTACT',
       path: '/contact',
       imageSrc: '/img/contact.jpg',
     }])
-  const [currentSelect, setCurrentSelect] = useState('HOME');
+  const [currentSelect, setCurrentSelect] = useState('/');
+  useEffect(() => {
+    console.log(router.pathname);
+    setCurrentSelect(router.pathname);
+  }, [])
   const onMenuClick = (m) => {
     setCurrentSelect(m.title);
     onSelect();
-    router.push(m.path || '/')
+    router.push(m.path || '/');
   }
   return (
     <Fragment>
@@ -101,7 +106,7 @@ function MenuList({onSelect}) {
         return (
           <div key={i} onClick={() => {onMenuClick(m)}} className='menu_item'>
             <div className='menu_title'>
-              {currentSelect === m.title ? <span className='tag_class' /> : ''}
+              {currentSelect === m.path ? <span className='tag_class' /> : ''}
               {m.title}
             </div>
             <div className='menu_img'>
@@ -119,6 +124,7 @@ function MenuList({onSelect}) {
     </Fragment>
   )
 }
+
 export default function RootLayout({ children }) {
   const [isMenuon, setIsMenuon] = useState(false);
   const openMenu = () => {

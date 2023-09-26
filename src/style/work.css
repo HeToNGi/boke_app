@@ -1,0 +1,12 @@
+.middle_class {
+  width: 200px;
+  height: 20px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  transform: rotateZ(90deg);
+  font-family: 'CustomFont', sans-serif;
+}

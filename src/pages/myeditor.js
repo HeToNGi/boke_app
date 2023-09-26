@@ -65,7 +65,9 @@ export default function myeditor() {
       <div className='content_title'>
         <Input value={title} onChange={(e) => {setTitle(e.target.value)}} style={{height: '100%'}} placeholder='请输入标题' />
       </div>
-      {forEditorLoaded ? <Editor style={{marginTop: '96px', height: '100%', overflow: 'scroll'}} value={value} expand preview subfield toolbar={toolbar} onSave={onSave} onChange={(e) => handleEditorChange(e)} /> : ''}
+      <div style={{height: 'calc(100% - 50px)'}}>
+        {forEditorLoaded ? <Editor style={{marginTop: '50px', height: '100%', overflow: 'scroll'}} value={value} expand preview subfield toolbar={toolbar} onSave={onSave} onChange={(e) => handleEditorChange(e)} /> : ''}
+      </div>
       <div className='select_type'>
         <Radio.Group optionType="button" onChange={(e) => {setType(e.target.value)}} value={type}>
           <Space direction="vertical">

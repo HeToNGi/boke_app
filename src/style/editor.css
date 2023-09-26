@@ -1,7 +1,7 @@
 .editor_outer {
   height: calc(100% - 46px);
-  display: flex;
-  margin-top: 46px;
+  /* display: flex; */
+  /* margin-top: 46px; */
   overflow: hidden;
 }
 /* .ant-modal-root {

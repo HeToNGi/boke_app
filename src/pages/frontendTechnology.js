@@ -52,7 +52,11 @@ export default function frontendTechnology() {
     setKey(k);
   }
   return (
-    <div className='content'>
+    <div style={{
+      margin: '46px 300px 0 400px',
+      height: '100%',
+      overflow: 'scroll'
+    }}>
       <AbsCatalogue items={items} onSelect={onSelect} />
       <MdShow content={content} />
       <AbsMore onClick={onMoreClick} />

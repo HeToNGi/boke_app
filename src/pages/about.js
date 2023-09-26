@@ -41,8 +41,9 @@ export default function About() {
       }
       if (aboutImgBottomtop <= -200 ) {
         aboutImgBottomText.style.display = 'none';
+        aboutImgBottomList.style.opacity = 1;
+        aboutImgBottomList.style.transform = `translateX(${0}px)`;
       }
-      console.log(aboutImgBottomtop);
     });
   }, []);
   return (
@@ -80,7 +81,7 @@ export default function About() {
           "Le Chuang No Boundaries" is a new creative platform launched by [Coca-Cola] worldwide, which gives the iconic [Coca-Cola] a new expression and meaning through limited product launch, immersive interactive experience and cultural creativity in line with the younger generation. "The Next 3000 Years" is the fifth limited product launched by the "Le Chuang No Boundaries" creative platform of [Coca-Cola] in the Chinese market after "Star Walk", "Rhythm Square", "Soul · Environment" and "Hero Debut".
         </div>
         <div id="about_img_bottom_list" className="about_img_bottom_list">
-          {imgList.map(m => {
+          {[26, 27, 28, 20].map(m => {
             return (
               <img key={m} src={`/img/${m}.jpg`} className="about_img_bottom_item" style={{height: '100%', marginRight: '20px'}} />
             )

@@ -28,8 +28,8 @@ export default function MdShow({content}) {
     subfield: false, // 单双栏模式
   }
   return (
-    <div style={{width: '100%', overflow: 'scroll'}}>
-      {forEditorLoaded && content ? <Editor style={{overflow: 'scroll', position: 'relative'}} value={content} expand preview toolbar={toolbar}/> : ''}
+    <div style={{width: '100%', overflow: 'scroll', height: 'calc(100% - 56px)'}}>
+      {forEditorLoaded && content ? <Editor style={{position: 'relative'}} value={content} expand preview toolbar={toolbar}/> : ''}
     </div>
   );
 }

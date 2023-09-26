@@ -96,7 +96,7 @@ function MenuList({onSelect}) {
     setCurrentSelect(router.pathname);
   }, [])
   const onMenuClick = (m) => {
-    setCurrentSelect(m.title);
+    setCurrentSelect(m.path);
     onSelect();
     router.push(m.path || '/');
   }

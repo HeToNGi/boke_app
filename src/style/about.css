@@ -19,23 +19,43 @@
   display: flex;
   overflow: hidden;
 }
-.about_img_bottom_list {
-  position: sticky;
-  top: 150px;
-  height: 600px;
-  display: flex;
-  overflow: hidden;
-  transform: translateX(400px);
+#about_img_bottom img {
+  height: 100%;
+}
+#bottom_list_one {
+  transform: translateY(50%) translateX(95%) scale(2);
+}
+#bottom_list_two {
   opacity: 0;
 }
-.about_img_bottom_text {
-  width: 500px;
-  font-size: 20px;
-  /* transform: translateY(200px); */
-  /* position: sticky; */
-  position: fixed;
-  top: 500px;
-  opacity: 0;
+#bottom_list_three {
   display: none;
+}
+.about_img_bottom_list {
+  position: sticky;
+  top: 5%;
+  /* display: flex;
+  overflow: hidden;
+  transform: translateX(400px);
+  opacity: 0; */
+}
+#img_bottom_mask {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #fff;
   z-index: 1;
+}
+#about_img_bottom_text {
+  width: 500px;
+  font-size: 40px;
+  transform: translateY(200px);
+  position: fixed;
+  top: 400px;
+  left: 50px;
+  opacity: 0;
+  /* display: none; */
+  z-index: 1;
+  font-family: 'CustomFont', sans-serif;
+  color: rgba(0, 0, 0, 0.5); /* 这里的 0.5 表示 50% 的透明度 */
 }
